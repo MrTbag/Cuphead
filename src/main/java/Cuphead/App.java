@@ -1,6 +1,10 @@
 package Cuphead;
 
+import Cuphead.Model.User;
 import Cuphead.View.GameMenu;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -11,13 +15,16 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class App extends Application {
     private static Scene scene;
     public static Parent root;
     private static MediaPlayer mediaPlayer;
+    public static Stage stage;
 
     public static void main(String[] args) throws InterruptedException {
         launch();
@@ -25,7 +32,10 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-//        User.loadUsers();
+        App.stage = stage;
+        Gson gson = new GsonBuilder().create();
+        if (gson.fromJson(loadFromFile("users.json"), new TypeToken<List<User>>(){}.getType()) != null)
+            User.setAllUsers(gson.fromJson(loadFromFile("users.json"), new TypeToken<List<User>>(){}.getType()));
         Media media = new Media(getClass().getResource("/Cuphead/Music/13 Floral Fury.mp3").toExternalForm());
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setAutoPlay(true);
@@ -40,9 +50,16 @@ public class App extends Application {
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
-
+                Gson gson = new GsonBuilder().create();
+                String jsonString = gson.toJson(User.getAllUsers());
+                try {
+                    savetoFile("users.json", jsonString);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
             }
         });
+
     }
 
     public static void changeMenu(String name){
@@ -74,6 +91,21 @@ public class App extends Application {
 
     public static void unmuteMediaPlayer(){
         mediaPlayer.setMute(false);
+    }
+
+    private void savetoFile(String fileName, String text) throws FileNotFoundException {
+        File file = new File(fileName);
+        PrintWriter printWriter = new PrintWriter(file);
+        printWriter.write(text);
+        printWriter.close();
+    }
+
+    private String loadFromFile(String fileName) throws IOException {
+        File file = new File(fileName);
+        FileInputStream fileInputStream = new FileInputStream(file);
+        String text = new String(fileInputStream.readAllBytes());
+        fileInputStream.close();
+        return text;
     }
 
 

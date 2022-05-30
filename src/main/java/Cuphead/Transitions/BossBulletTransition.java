@@ -11,6 +11,8 @@ import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 public class BossBulletTransition extends Transition {
@@ -28,17 +30,23 @@ public class BossBulletTransition extends Transition {
 
     @Override
     protected void interpolate(double v) {
-        bossBullet.setX(bossBullet.getX() - 10);
-        v *= 7;
-        int pos = (int) Math.floor(v);
-        bossBullet.setImage(new Image(getClass().getResource("/Cuphead/Images/Bird Bullet/" + pos + ".png").toExternalForm()));
-        if (bossBullet.getY() <= plane.getY() + plane.getFitHeight() && bossBullet.getY() + bossBullet.getFitHeight() >= plane.getY()
-                && bossBullet.getX() <= plane.getX() + plane.getFitWidth() && !GameMenu.faded){
-            anchorPane.getChildren().remove(bossBullet);
-            GameController.planeLoseHP(1 * Controller.getCurrentUser().getDamageTaken());
-            bossBullet = null;
-            this.stop();
-            fadePlane();
+        if (bossBullet != null){
+            bossBullet.setX(bossBullet.getX() - 10);
+            v *= 7;
+            int pos = (int) Math.floor(v);
+            bossBullet.setImage(new Image(getClass().getResource("/Cuphead/Images/Bird Bullet/" + pos + ".png").toExternalForm()));
+            if (((bossBullet.getY() <= plane.getY() + plane.getFitHeight() && bossBullet.getY() >= plane.getY()) ||
+                    (bossBullet.getY() + bossBullet.getFitHeight() >= plane.getY() && bossBullet.getY() + bossBullet.getFitHeight() <= plane.getY()))
+                    && bossBullet.getX() <= plane.getX() + plane.getFitWidth() && !GameMenu.faded){
+                anchorPane.getChildren().remove(bossBullet);
+                GameController.planeLoseHP(1 * Controller.getCurrentUser().getDamageTaken());
+                if (Controller.getCurrentUser().getHP() <= 0) {
+                    youLose();
+                }
+                bossBullet = null;
+                this.stop();
+                fadePlane();
+            }
         }
     }
 
@@ -62,6 +70,22 @@ public class BossBulletTransition extends Transition {
                 fadeTransition1.setToValue(10);
                 fadeTransition1.play();
                 GameMenu.faded = false;
+            }
+        });
+    }
+
+    private void youLose() {
+        Text text = new Text("You Lose");
+        text.setFont(new Font(100));
+        text.setX(600);
+        text.setY(300);
+        anchorPane.getChildren().add(text);
+        WinTransition winTransition = new WinTransition(text);
+        winTransition.play();
+        winTransition.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.exit(0);
             }
         });
     }

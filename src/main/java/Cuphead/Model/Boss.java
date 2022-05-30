@@ -1,7 +1,7 @@
 package Cuphead.Model;
 
 public class Boss {
-    private int HP = 50;
+    private int HP = 100;
     private BossHead bossHead;
     private BossHouse bossHouse;
 

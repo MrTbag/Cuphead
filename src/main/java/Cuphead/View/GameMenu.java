@@ -44,110 +44,41 @@ public class GameMenu {
     public static boolean faded = false;
     public ProgressBar rocketProgressbar;
     public RocketProgressbarTransition rocketProgressbarTransition;
-    public long bossAttackTime;
-    public static boolean bossAttack = false;
     public Text bossHpText;
     public BossHpTransition bossHpTransition;
     public UserHpTransition userHpTransition;
     public ProgressBar bossHpProgressBar;
     public BossHpProgressbarTransition bossHpProgressbarTransition;
-    public BossBullet bossBullet;
-    public BossBulletTransition bossBulletTransition;
     public TimerTransition timerTransition;
     public Text timeText;
-    public static boolean miniBossAttack = false;
     Controller controller = new Controller();
     CollisionController collisionController = new CollisionController();
 
     public void controlPlane(KeyEvent keyEvent) throws InterruptedException {
         switch (keyEvent.getCode().getName()) {
+            case ("W"):
             case ("Up"):
                 if (!collisionController.doesPlaneHitTop(plane))
                     plane.setY(plane.getY() - 10);
-                if (collisionController.doesPlaneHitBoss(plane, bossHead)){
-                    GameController.planeLoseHP(1 * Controller.getCurrentUser().getDamageTaken());
-                    if (Controller.getCurrentUser().getHP() <= 0){
-                        youLose();
-                    }
-                    fadePlane();
-                }
+                checkCollision();
                 break;
+            case ("S"):
             case ("Down"):
                 if (!collisionController.doesPlaneHitBottom(plane))
                     plane.setY(plane.getY() + 10);
-                if (collisionController.doesPlaneHitBoss(plane, bossHead)){
-                    GameController.planeLoseHP(1 * Controller.getCurrentUser().getDamageTaken());
-                    if (Controller.getCurrentUser().getHP() <= 0){
-                        youLose();
-                    }
-                    fadePlane();;
-                }
+                checkCollision();
                 break;
+            case ("A"):
             case ("Left"):
                 if (!collisionController.doesPlaneHitLeft(plane))
                     plane.setX(plane.getX() - 10);
-                if (collisionController.doesPlaneHitBoss(plane, bossHead)){
-                    GameController.planeLoseHP(1 * Controller.getCurrentUser().getDamageTaken());
-                    if (Controller.getCurrentUser().getHP() <= 0){
-                        youLose();
-                    }
-                    fadePlane();
-                }
+                checkCollision();
                 break;
+            case ("D"):
             case ("Right"):
                 if (!collisionController.doesPlaneHitRight(plane))
                     plane.setX(plane.getX() + 10);
-                if (collisionController.doesPlaneHitBoss(plane, bossHead)){
-                    GameController.planeLoseHP(1 * Controller.getCurrentUser().getDamageTaken());
-                    if (Controller.getCurrentUser().getHP() <= 0){
-                        youLose();
-                    }
-                    fadePlane();
-                }
-                break;
-            case ("W"):
-                if (!collisionController.doesPlaneHitTop(plane))
-                    plane.setY(plane.getY() - 10);
-                if (collisionController.doesPlaneHitBoss(plane, bossHead)){
-                    GameController.planeLoseHP(1 * Controller.getCurrentUser().getDamageTaken());
-                    if (Controller.getCurrentUser().getHP() <= 0){
-                        youLose();
-                    }
-                    fadePlane();
-                }
-                break;
-            case ("S"):
-                if (!collisionController.doesPlaneHitBottom(plane))
-                    plane.setY(plane.getY() + 10);
-                if (collisionController.doesPlaneHitBoss(plane, bossHead)){
-                    GameController.planeLoseHP(1 * Controller.getCurrentUser().getDamageTaken());
-                    if (Controller.getCurrentUser().getHP() <= 0){
-                        youLose();
-                    }
-                    fadePlane();;
-                }
-                break;
-            case ("A"):
-                if (!collisionController.doesPlaneHitLeft(plane))
-                    plane.setX(plane.getX() - 10);
-                if (collisionController.doesPlaneHitBoss(plane, bossHead)){
-                    GameController.planeLoseHP(1 * Controller.getCurrentUser().getDamageTaken());
-                    if (Controller.getCurrentUser().getHP() <= 0){
-                        youLose();
-                    }
-                    fadePlane();
-                }
-                break;
-            case ("D"):
-                if (!collisionController.doesPlaneHitRight(plane))
-                    plane.setX(plane.getX() + 10);
-                if (collisionController.doesPlaneHitBoss(plane, bossHead)){
-                    GameController.planeLoseHP(1 * Controller.getCurrentUser().getDamageTaken());
-                    if (Controller.getCurrentUser().getHP() <= 0){
-                        youLose();
-                    }
-                    fadePlane();
-                }
+                checkCollision();
                 break;
             case ("Space"):
                 if (FireMode == 0) {
@@ -179,7 +110,7 @@ public class GameMenu {
                 FireMode = 1 - FireMode;
                 break;
             case ("R"):
-                if (rocketProgressbar.getProgress() >= 1){
+                if (rocketProgressbar.getProgress() >= 1) {
                     idleTransition.stop();
                     RocketIntroTransition rocketIntroTransition = new RocketIntroTransition(plane);
                     rocketIntroTransition.play();
@@ -240,7 +171,7 @@ public class GameMenu {
         }
     }
 
-    private void fadePlane(){
+    private void fadePlane() {
         FadeTransition fadeTransition = new FadeTransition();
         fadeTransition.setNode(plane);
         fadeTransition.setCycleCount(1);
@@ -264,7 +195,7 @@ public class GameMenu {
         });
     }
 
-    private void addChildren(){
+    private void addChildren() {
         anchorPane.getChildren().remove(fireMode);
         anchorPane.getChildren().remove(muteIcon);
         anchorPane.getChildren().add(background1);
@@ -285,7 +216,7 @@ public class GameMenu {
         anchorPane.getChildren().add(timeText);
     }
 
-    private void startTransitions(){
+    private void startTransitions() {
         timerTransition = new TimerTransition(timeText);
         timerTransition.play();
         bossHpProgressbarTransition = new BossHpProgressbarTransition(bossHpProgressBar);
@@ -312,7 +243,7 @@ public class GameMenu {
         });
     }
 
-    private void makeNodes(){
+    private void makeNodes() {
         timeText = new Text("0:0");
         timeText.setFont(new Font(30));
         timeText.setX(1100);
@@ -369,8 +300,8 @@ public class GameMenu {
         avatar.setFitHeight(50);
     }
 
-    private void youLose(){
-        Text text= new Text("You Lose");
+    private void youLose() {
+        Text text = new Text("You Lose");
         text.setFont(new Font(100));
         text.setX(600);
         text.setY(300);
@@ -383,5 +314,15 @@ public class GameMenu {
                 System.exit(0);
             }
         });
+    }
+
+    private void checkCollision() {
+        if (collisionController.doesPlaneHitBoss(plane, bossHead)) {
+            GameController.planeLoseHP(1 * Controller.getCurrentUser().getDamageTaken());
+            if (Controller.getCurrentUser().getHP() <= 0) {
+                youLose();
+            }
+            fadePlane();
+        }
     }
 }

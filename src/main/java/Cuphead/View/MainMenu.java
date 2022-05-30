@@ -25,6 +25,7 @@ public class MainMenu {
     }
 
     public void quit(MouseEvent mouseEvent) {
+        App.stage.close();
     }
 
     public void settings(MouseEvent mouseEvent) {

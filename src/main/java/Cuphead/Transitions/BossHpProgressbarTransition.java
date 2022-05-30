@@ -16,7 +16,7 @@ public class BossHpProgressbarTransition extends Transition {
 
     @Override
     protected void interpolate(double v) {
-        double pr = (double) Controller.getCurrentBoss().getHP() * 0.02;
+        double pr = (double) Controller.getCurrentBoss().getHP() * 0.01;
         this.progressBar.setProgress(pr);
     }
 }

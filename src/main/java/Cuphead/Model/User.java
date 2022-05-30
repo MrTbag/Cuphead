@@ -82,4 +82,8 @@ public class User{
     public void setDamageTaken(int damageTaken) {
         this.damageTaken = damageTaken;
     }
+
+    public static void setAllUsers(ArrayList<User> allUsers) {
+        User.allUsers = allUsers;
+    }
 }
