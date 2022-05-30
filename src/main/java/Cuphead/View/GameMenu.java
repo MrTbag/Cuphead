@@ -55,6 +55,7 @@ public class GameMenu {
     public BossBulletTransition bossBulletTransition;
     public TimerTransition timerTransition;
     public Text timeText;
+    public static boolean miniBossAttack = false;
     Controller controller = new Controller();
     CollisionController collisionController = new CollisionController();
 
@@ -65,6 +66,9 @@ public class GameMenu {
                     plane.setY(plane.getY() - 10);
                 if (collisionController.doesPlaneHitBoss(plane, bossHead)){
                     GameController.planeLoseHP(1 * Controller.getCurrentUser().getDamageTaken());
+                    if (Controller.getCurrentUser().getHP() <= 0){
+                        youLose();
+                    }
                     fadePlane();
                 }
                 break;
@@ -73,6 +77,9 @@ public class GameMenu {
                     plane.setY(plane.getY() + 10);
                 if (collisionController.doesPlaneHitBoss(plane, bossHead)){
                     GameController.planeLoseHP(1 * Controller.getCurrentUser().getDamageTaken());
+                    if (Controller.getCurrentUser().getHP() <= 0){
+                        youLose();
+                    }
                     fadePlane();;
                 }
                 break;
@@ -81,6 +88,9 @@ public class GameMenu {
                     plane.setX(plane.getX() - 10);
                 if (collisionController.doesPlaneHitBoss(plane, bossHead)){
                     GameController.planeLoseHP(1 * Controller.getCurrentUser().getDamageTaken());
+                    if (Controller.getCurrentUser().getHP() <= 0){
+                        youLose();
+                    }
                     fadePlane();
                 }
                 break;
@@ -89,6 +99,9 @@ public class GameMenu {
                     plane.setX(plane.getX() + 10);
                 if (collisionController.doesPlaneHitBoss(plane, bossHead)){
                     GameController.planeLoseHP(1 * Controller.getCurrentUser().getDamageTaken());
+                    if (Controller.getCurrentUser().getHP() <= 0){
+                        youLose();
+                    }
                     fadePlane();
                 }
                 break;
@@ -97,6 +110,9 @@ public class GameMenu {
                     plane.setY(plane.getY() - 10);
                 if (collisionController.doesPlaneHitBoss(plane, bossHead)){
                     GameController.planeLoseHP(1 * Controller.getCurrentUser().getDamageTaken());
+                    if (Controller.getCurrentUser().getHP() <= 0){
+                        youLose();
+                    }
                     fadePlane();
                 }
                 break;
@@ -105,6 +121,9 @@ public class GameMenu {
                     plane.setY(plane.getY() + 10);
                 if (collisionController.doesPlaneHitBoss(plane, bossHead)){
                     GameController.planeLoseHP(1 * Controller.getCurrentUser().getDamageTaken());
+                    if (Controller.getCurrentUser().getHP() <= 0){
+                        youLose();
+                    }
                     fadePlane();;
                 }
                 break;
@@ -113,6 +132,9 @@ public class GameMenu {
                     plane.setX(plane.getX() - 10);
                 if (collisionController.doesPlaneHitBoss(plane, bossHead)){
                     GameController.planeLoseHP(1 * Controller.getCurrentUser().getDamageTaken());
+                    if (Controller.getCurrentUser().getHP() <= 0){
+                        youLose();
+                    }
                     fadePlane();
                 }
                 break;
@@ -121,6 +143,9 @@ public class GameMenu {
                     plane.setX(plane.getX() + 10);
                 if (collisionController.doesPlaneHitBoss(plane, bossHead)){
                     GameController.planeLoseHP(1 * Controller.getCurrentUser().getDamageTaken());
+                    if (Controller.getCurrentUser().getHP() <= 0){
+                        youLose();
+                    }
                     fadePlane();
                 }
                 break;
@@ -186,6 +211,152 @@ public class GameMenu {
         if (ColorController.grayScale) {
             ColorController.setGrayScale(anchorPane);
         }
+        makeNodes();
+        addChildren();
+        startTransitions();
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                if (miniBossAttack){
+
+                }
+            }
+        });
+//        bossAttackTime = System.currentTimeMillis();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                while (true){
+//                    if (System.currentTimeMillis() - bossAttackTime >= 5000){
+//                        bossAttackTime = System.currentTimeMillis();
+//                        Platform.runLater(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                BossAttackTransition bossAttackTransition = new BossAttackTransition(bossHead);
+//                                bossAttackTransition.play();
+//                                bossBullet = new BossBullet(850, 250);
+//                                anchorPane.getChildren().add(bossBullet);
+//                                bossBulletTransition = new BossBulletTransition(bossBullet);
+//                                bossAttackTransition.setOnFinished(new EventHandler<ActionEvent>() {
+//                                    @Override
+//                                    public void handle(ActionEvent actionEvent) {
+//                                        bossBulletTransition.play();
+//                                    }
+//                                });
+//                            }
+//                        });
+//                    }
+//
+//                }
+//            }
+//        }).start();
+        Thread flappy = new Thread(new Time(System.currentTimeMillis(), anchorPane));
+        flappy.setDaemon(true);
+        flappy.start();
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                if (!miniBossAttack){
+                    System.out.println("wow");
+                    MiniBoss miniBoss = new MiniBoss(new Image(getClass().getResource("/Cuphead/Images/Flappy Birds/Yellow/Fly/0.png").toExternalForm()));
+                    anchorPane.getChildren().add(miniBoss);
+                    miniBossAttack = false;
+                }
+            }
+        });
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                plane.requestFocus();
+            }
+        });
+    }
+
+    public void muteGame(MouseEvent mouseEvent) {
+        if (muted == false) {
+            App.muteMediaPlayer();
+            muted = true;
+            muteIcon.setImage(new Image(getClass().getResource("/Cuphead/Images/mute.png").toExternalForm()));
+        } else {
+            App.unmuteMediaPlayer();
+            muted = false;
+            muteIcon.setImage(new Image(getClass().getResource("/Cuphead/Images/unmute.png").toExternalForm()));
+        }
+    }
+
+    private void fadePlane(){
+        FadeTransition fadeTransition = new FadeTransition();
+        fadeTransition.setNode(plane);
+        fadeTransition.setCycleCount(1);
+        fadeTransition.setDuration(Duration.millis(1000));
+        fadeTransition.setFromValue(10);
+        fadeTransition.setToValue(0.1);
+        faded = true;
+        fadeTransition.play();
+        fadeTransition.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                FadeTransition fadeTransition1 = new FadeTransition();
+                fadeTransition1.setNode(plane);
+                fadeTransition1.setCycleCount(1);
+                fadeTransition1.setDuration(Duration.millis(500));
+                fadeTransition1.setFromValue(0.1);
+                fadeTransition1.setToValue(10);
+                fadeTransition1.play();
+                faded = false;
+            }
+        });
+    }
+
+    private void addChildren(){
+        anchorPane.getChildren().remove(fireMode);
+        anchorPane.getChildren().remove(muteIcon);
+        anchorPane.getChildren().add(background1);
+        anchorPane.getChildren().add(background2);
+        anchorPane.getChildren().add(background3);
+        anchorPane.getChildren().add(fireMode);
+        anchorPane.getChildren().add(muteIcon);
+        anchorPane.getChildren().add(avatar);
+        controller.setCurrentBoss(boss);
+        anchorPane.getChildren().add(bossHouse);
+        anchorPane.getChildren().add(bossHead);
+        anchorPane.getChildren().add(plane);
+        anchorPane.getChildren().add(scoreText);
+        anchorPane.getChildren().add(hpText);
+        anchorPane.getChildren().add(rocketProgressbar);
+        anchorPane.getChildren().add(bossHpText);
+        anchorPane.getChildren().add(bossHpProgressBar);
+        anchorPane.getChildren().add(timeText);
+    }
+
+    private void startTransitions(){
+        timerTransition = new TimerTransition(timeText);
+        timerTransition.play();
+        bossHpProgressbarTransition = new BossHpProgressbarTransition(bossHpProgressBar);
+        bossHpProgressbarTransition.play();
+        bossHpTransition = new BossHpTransition(bossHpText);
+        bossHpTransition.play();
+        rocketProgressbarTransition = new RocketProgressbarTransition(rocketProgressbar);
+        rocketProgressbarTransition.play();
+        scoreTextTransition = new ScoreTextTransition(scoreText);
+        scoreTextTransition.play();
+        userHpTransition = new UserHpTransition(hpText);
+        userHpTransition.play();
+        idleTransition = new IdleTransition(plane);
+        idleTransition.play();
+        BossHouseTransition bossHouseTransition = new BossHouseTransition(bossHouse);
+        bossHouseTransition.play();
+        BossHeadTransition bossHeadTransition = new BossHeadTransition(bossHead, anchorPane, bossHouse);
+        bossHeadTransition.play();
+        bossHeadTransition.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                anchorPane.getChildren().remove(bossHead);
+            }
+        });
+    }
+
+    private void makeNodes(){
         timeText = new Text("0:0");
         timeText.setFont(new Font(30));
         timeText.setX(1100);
@@ -198,9 +369,6 @@ public class GameMenu {
         bossHpProgressBar = new ProgressBar(0);
         bossHpProgressBar.setTranslateX(1100);
         bossHpProgressBar.setTranslateY(600);
-        Thread flappy = new Thread(new Time(System.currentTimeMillis(), anchorPane));
-        flappy.setDaemon(true);
-        flappy.start();
         rocketProgressbar = new ProgressBar(0);
         rocketProgressbar.setTranslateX(200);
         rocketProgressbar.setTranslateY(680);
@@ -243,116 +411,20 @@ public class GameMenu {
         avatar.setY(20);
         avatar.setFitWidth(50);
         avatar.setFitHeight(50);
-        anchorPane.getChildren().remove(fireMode);
-        anchorPane.getChildren().remove(muteIcon);
-        anchorPane.getChildren().add(background1);
-        anchorPane.getChildren().add(background2);
-        anchorPane.getChildren().add(background3);
-        anchorPane.getChildren().add(fireMode);
-        anchorPane.getChildren().add(muteIcon);
-        anchorPane.getChildren().add(avatar);
-        controller.setCurrentBoss(boss);
-        anchorPane.getChildren().add(bossHouse);
-        anchorPane.getChildren().add(bossHead);
-        anchorPane.getChildren().add(plane);
-        anchorPane.getChildren().add(scoreText);
-        anchorPane.getChildren().add(hpText);
-        anchorPane.getChildren().add(rocketProgressbar);
-        anchorPane.getChildren().add(bossHpText);
-        anchorPane.getChildren().add(bossHpProgressBar);
-        anchorPane.getChildren().add(timeText);
-        timerTransition = new TimerTransition(timeText);
-        timerTransition.play();
-        bossHpProgressbarTransition = new BossHpProgressbarTransition(bossHpProgressBar);
-        bossHpProgressbarTransition.play();
-        bossHpTransition = new BossHpTransition(bossHpText);
-        bossHpTransition.play();
-        rocketProgressbarTransition = new RocketProgressbarTransition(rocketProgressbar);
-        rocketProgressbarTransition.play();
-        scoreTextTransition = new ScoreTextTransition(scoreText);
-        scoreTextTransition.play();
-        userHpTransition = new UserHpTransition(hpText);
-        userHpTransition.play();
-        idleTransition = new IdleTransition(plane);
-        idleTransition.play();
-        BossHouseTransition bossHouseTransition = new BossHouseTransition(bossHouse);
-        bossHouseTransition.play();
-        BossHeadTransition bossHeadTransition = new BossHeadTransition(bossHead, anchorPane);
-        bossHeadTransition.play();
-        bossHeadTransition.setOnFinished(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                anchorPane.getChildren().remove(bossHead);
-            }
-        });
-//        bossAttackTime = System.currentTimeMillis();
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                while (true){
-//                    if (System.currentTimeMillis() - bossAttackTime >= 5000){
-//                        bossAttackTime = System.currentTimeMillis();
-//                        Platform.runLater(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                BossAttackTransition bossAttackTransition = new BossAttackTransition(bossHead);
-//                                bossAttackTransition.play();
-//                                bossBullet = new BossBullet(850, 250);
-//                                anchorPane.getChildren().add(bossBullet);
-//                                bossBulletTransition = new BossBulletTransition(bossBullet);
-//                                bossAttackTransition.setOnFinished(new EventHandler<ActionEvent>() {
-//                                    @Override
-//                                    public void handle(ActionEvent actionEvent) {
-//                                        bossBulletTransition.play();
-//                                    }
-//                                });
-//                            }
-//                        });
-//                    }
-//
-//                }
-//            }
-//        }).start();
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                plane.requestFocus();
-            }
-        });
     }
 
-    public void muteGame(MouseEvent mouseEvent) {
-        if (muted == false) {
-            App.muteMediaPlayer();
-            muted = true;
-            muteIcon.setImage(new Image(getClass().getResource("/Cuphead/Images/mute.png").toExternalForm()));
-        } else {
-            App.unmuteMediaPlayer();
-            muted = false;
-            muteIcon.setImage(new Image(getClass().getResource("/Cuphead/Images/unmute.png").toExternalForm()));
-        }
-    }
-
-    private void fadePlane(){
-        FadeTransition fadeTransition = new FadeTransition();
-        fadeTransition.setNode(plane);
-        fadeTransition.setCycleCount(1);
-        fadeTransition.setDuration(Duration.millis(1000));
-        fadeTransition.setFromValue(10);
-        fadeTransition.setToValue(0.1);
-        faded = true;
-        fadeTransition.play();
-        fadeTransition.setOnFinished(new EventHandler<ActionEvent>() {
+    private void youLose(){
+        Text text= new Text("You Lose");
+        text.setFont(new Font(100));
+        text.setX(600);
+        text.setY(300);
+        anchorPane.getChildren().add(text);
+        WinTransition winTransition = new WinTransition(text);
+        winTransition.play();
+        winTransition.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent actionEvent) {
-                FadeTransition fadeTransition1 = new FadeTransition();
-                fadeTransition1.setNode(plane);
-                fadeTransition1.setCycleCount(1);
-                fadeTransition1.setDuration(Duration.millis(500));
-                fadeTransition1.setFromValue(0.1);
-                fadeTransition1.setToValue(10);
-                fadeTransition1.play();
-                faded = false;
+            public void handle(ActionEvent event) {
+                System.exit(0);
             }
         });
     }
