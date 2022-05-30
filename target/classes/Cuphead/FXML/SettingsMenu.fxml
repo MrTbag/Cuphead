@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Cuphead.View.SettingsMenu"
+            prefHeight="720.0" prefWidth="1280.0" stylesheets="@../CSS/style.css">
+    <top>
+        <ImageView fx:id="muteIcon" onMouseClicked="#muteGame"/>
+    </top>
+
+    <center>
+        <VBox alignment="CENTER">
+            <Button fx:id="level1" styleClass="primary-btn" onMouseClicked="#level1"/>
+            <Button fx:id="level2" styleClass="secondary-btn"/>
+            <Button fx:id="level3" styleClass="primary-btn"/>
+        </VBox>
+    </center>
+    <bottom>
+        <HBox alignment="CENTER">
+            <Button fx:id="grayScale" text="GrayScale: Off" styleClass="primary-btn" onMouseClicked="#grayScale" alignment="BASELINE_LEFT"/>
+            <Button fx:id="back" text="Back" styleClass="secondary-btn" onMouseClicked="#back" alignment="BASELINE_RIGHT"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

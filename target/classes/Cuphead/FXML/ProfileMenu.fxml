@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.image.ImageView?>
+<BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Cuphead.View.ProfileMenu"
+            prefHeight="720.0" prefWidth="1280.0" stylesheets="@../CSS/style.css">
+    <center>
+        <VBox alignment="CENTER">
+            <Label>Username</Label>
+            <TextField fx:id="username" promptText="Enter new username"/>
+            <Button text="Change Username" styleClass="primary-btn" onMouseClicked="#changeUsername"/>
+            <Label>Password</Label>
+            <TextField fx:id="password" promptText="Enter new password"/>
+            <Button text="Change Password" styleClass="primary-btn" onMouseClicked="#changePassword"/>
+            <Button text="Delete Account" styleClass="secondary-btn" onMouseClicked="#deleteAccount"/>
+            <Button text="Logout" styleClass="primary-btn" onMouseClicked="#logout"/>
+            <Text fx:id="warning"></Text>
+
+            <HBox alignment="BOTTOM_CENTER">
+                <ImageView fx:id="character0" onMouseClicked="#chooseAvatar" fitWidth="100" fitHeight="100"/>
+                <ImageView fx:id="character1" onMouseClicked="#chooseAvatar" fitWidth="100" fitHeight="100"/>
+                <ImageView fx:id="character2" onMouseClicked="#chooseAvatar" fitWidth="100" fitHeight="100"/>
+                <ImageView fx:id="character3" onMouseClicked="#chooseAvatar" fitWidth="100" fitHeight="100"/>
+                <ImageView fx:id="character4" onMouseClicked="#chooseAvatar" fitWidth="100" fitHeight="100"/>
+            </HBox>
+        </VBox>
+
+    </center>
+
+    <bottom>
+
+    </bottom>
+
+</BorderPane>

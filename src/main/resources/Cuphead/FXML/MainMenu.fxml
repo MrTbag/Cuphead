@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Cuphead.View.MainMenu"
+            prefHeight="720.0" prefWidth="1280.0" stylesheets="@../CSS/style.css">
+    <center>
+        <VBox alignment="CENTER">
+            <Button text="New Game" styleClass="primary-btn" onMouseClicked="#newGame"/>
+            <Button text="Continue" styleClass="secondary-btn" onMouseClicked="#continueGame"/>
+            <Button text="Profile" styleClass="primary-btn" onMouseClicked="#profile"/>
+            <Button text="Settings" styleClass="secondary-btn" onMouseClicked="#settings"/>
+            <Button text="ScoreBoard" styleClass="primary-btn" onMouseClicked="#scoreBoard"/>
+            <Button text="Quit" styleClass="secondary-btn" onMouseClicked="#quit"/>
+        </VBox>
+    </center>
+
+</BorderPane>

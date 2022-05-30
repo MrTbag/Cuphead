@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<AnchorPane fx:id="anchorPane" xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Cuphead.View.GameMenu"
+            prefHeight="720.0" prefWidth="1280.0" stylesheets="@../CSS/style.css">
+
+    <ImageView fx:id="plane" onKeyPressed="#controlPlane" x="200" y="300" fitWidth="113" fitHeight="98"/>
+    <ImageView fx:id="fireMode" x="20" y="650" fitWidth="50" fitHeight="50"/>
+    <ImageView fx:id="muteIcon"  onMouseClicked="#muteGame" x="20" y="20"/>
+
+</AnchorPane>
