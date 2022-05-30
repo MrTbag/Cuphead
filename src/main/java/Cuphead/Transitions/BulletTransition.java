@@ -5,6 +5,7 @@ import Cuphead.Controller.Controller;
 import Cuphead.Controller.GameController;
 import Cuphead.Model.BossHead;
 import Cuphead.Model.Bullet;
+import Cuphead.Model.MiniBoss;
 import Cuphead.View.GameMenu;
 import javafx.animation.Transition;
 import javafx.scene.image.Image;
@@ -46,6 +47,20 @@ public class BulletTransition extends Transition {
                 bullet = null;
                 GameController.bossLoseHP(1 * Controller.getCurrentUser().getDamageMultiplier());
                 this.setCycleCount(0);
+            }else{
+                for (MiniBoss miniBoss : MiniBoss.getAllMiniBosses()) {
+                    if (bullet.getX() + bullet.getFitWidth() >= miniBoss.getX()){
+                        GameController.getCurrentUser().setScore(GameController.getCurrentUser().getScore() + 5);
+                        Bullet.getAllBullets().remove(bullet);
+                        anchorPane.getChildren().remove(bullet);
+                        bullet = null;
+                        MiniBoss.getAllMiniBosses().remove(miniBoss);
+                        anchorPane.getChildren().remove(miniBoss);
+                        miniBoss = null;
+                        this.setCycleCount(0);
+                        break;
+                    }
+                }
             }
         }
     }

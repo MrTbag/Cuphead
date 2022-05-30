@@ -214,56 +214,12 @@ public class GameMenu {
         makeNodes();
         addChildren();
         startTransitions();
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                if (miniBossAttack){
-
-                }
-            }
-        });
-//        bossAttackTime = System.currentTimeMillis();
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                while (true){
-//                    if (System.currentTimeMillis() - bossAttackTime >= 5000){
-//                        bossAttackTime = System.currentTimeMillis();
-//                        Platform.runLater(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                BossAttackTransition bossAttackTransition = new BossAttackTransition(bossHead);
-//                                bossAttackTransition.play();
-//                                bossBullet = new BossBullet(850, 250);
-//                                anchorPane.getChildren().add(bossBullet);
-//                                bossBulletTransition = new BossBulletTransition(bossBullet);
-//                                bossAttackTransition.setOnFinished(new EventHandler<ActionEvent>() {
-//                                    @Override
-//                                    public void handle(ActionEvent actionEvent) {
-//                                        bossBulletTransition.play();
-//                                    }
-//                                });
-//                            }
-//                        });
-//                    }
-//
-//                }
-//            }
-//        }).start();
-        Thread flappy = new Thread(new Time(System.currentTimeMillis(), anchorPane));
+        Thread flappy = new Thread(new MiniBossThread(System.currentTimeMillis(), anchorPane, plane));
         flappy.setDaemon(true);
         flappy.start();
-//        Platform.runLater(new Runnable() {
-//            @Override
-//            public void run() {
-//                if (!miniBossAttack){
-//                    System.out.println("wow");
-//                    MiniBoss miniBoss = new MiniBoss(new Image(getClass().getResource("/Cuphead/Images/Flappy Birds/Yellow/Fly/0.png").toExternalForm()));
-//                    anchorPane.getChildren().add(miniBoss);
-//                    miniBossAttack = false;
-//                }
-//            }
-//        });
+        Thread bossBulletThread = new Thread(new BossBulletThread(System.currentTimeMillis(), anchorPane, bossHead, plane));
+        bossBulletThread.setDaemon(true);
+        bossBulletThread.start();
         Platform.runLater(new Runnable() {
             @Override
             public void run() {

@@ -2,13 +2,8 @@ package Cuphead.View;
 
 import Cuphead.App;
 import Cuphead.Controller.ColorController;
-import Cuphead.Controller.Controller;
-import Cuphead.Controller.Time;
-import Cuphead.Controller.UserController;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 
 public class MainMenu {
     public BorderPane borderPane;

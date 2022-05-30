@@ -1,18 +1,11 @@
 package Cuphead;
 
-import Cuphead.Controller.BossDeath;
-import Cuphead.Controller.MediaThread;
-import Cuphead.Controller.Time;
-import Cuphead.Model.User;
 import Cuphead.View.GameMenu;
-import com.google.gson.GsonBuilder;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.effect.ColorAdjust;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;

@@ -6,6 +6,7 @@ import Cuphead.Controller.GameController;
 import Cuphead.Model.Bomb;
 import Cuphead.Model.BossHead;
 import Cuphead.Model.Bullet;
+import Cuphead.Model.MiniBoss;
 import javafx.animation.Transition;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
@@ -47,6 +48,20 @@ public class BombTransition extends Transition {
                 GameController.bossLoseHP(2 * Controller.getCurrentUser().getDamageMultiplier());
                 this.stop();
                 this.setCycleCount(0);
+            }else {
+                for (MiniBoss miniBoss : MiniBoss.getAllMiniBosses()) {
+                    if (bomb.getX() + bomb.getFitWidth() >= miniBoss.getX() && bomb.getY() + bomb.getFitHeight() >= miniBoss.getY()){
+                        GameController.getCurrentUser().setScore(GameController.getCurrentUser().getScore() + 4);
+                        Bullet.getAllBullets().remove(bomb);
+                        anchorPane.getChildren().remove(bomb);
+                        bomb = null;
+                        MiniBoss.getAllMiniBosses().remove(miniBoss);
+                        anchorPane.getChildren().remove(miniBoss);
+                        miniBoss = null;
+                        this.setCycleCount(0);
+                        break;
+                    }
+                }
             }
 
         }
