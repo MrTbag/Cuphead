@@ -253,17 +253,17 @@ public class GameMenu {
         Thread flappy = new Thread(new Time(System.currentTimeMillis(), anchorPane));
         flappy.setDaemon(true);
         flappy.start();
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                if (!miniBossAttack){
-                    System.out.println("wow");
-                    MiniBoss miniBoss = new MiniBoss(new Image(getClass().getResource("/Cuphead/Images/Flappy Birds/Yellow/Fly/0.png").toExternalForm()));
-                    anchorPane.getChildren().add(miniBoss);
-                    miniBossAttack = false;
-                }
-            }
-        });
+//        Platform.runLater(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (!miniBossAttack){
+//                    System.out.println("wow");
+//                    MiniBoss miniBoss = new MiniBoss(new Image(getClass().getResource("/Cuphead/Images/Flappy Birds/Yellow/Fly/0.png").toExternalForm()));
+//                    anchorPane.getChildren().add(miniBoss);
+//                    miniBossAttack = false;
+//                }
+//            }
+//        });
         Platform.runLater(new Runnable() {
             @Override
             public void run() {

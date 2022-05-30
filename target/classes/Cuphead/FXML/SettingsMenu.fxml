@@ -17,9 +17,9 @@
 
     <center>
         <VBox alignment="CENTER">
-            <Button fx:id="level1" styleClass="primary-btn" onMouseClicked="#level1"/>
-            <Button fx:id="level2" styleClass="secondary-btn"/>
-            <Button fx:id="level3" styleClass="primary-btn"/>
+            <Button fx:id="level1" text="level1" styleClass="primary-btn" onMouseClicked="#level1"/>
+            <Button fx:id="level2" text="level2" styleClass="secondary-btn" onMouseClicked="#level2"/>
+            <Button fx:id="level3" text="level3" styleClass="primary-btn" onMouseClicked="#level3"/>
         </VBox>
     </center>
     <bottom>

@@ -22,7 +22,7 @@ public class Time implements Runnable{
         while (true){
             if (System.currentTimeMillis() - initialTime >= 4000){
                 GameMenu.miniBossAttack = true;
-                
+
                 initialTime = System.currentTimeMillis();
             }
         }
